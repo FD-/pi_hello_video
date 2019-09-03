@@ -157,7 +157,19 @@ static int video_decode_test(char *filename, int loop)
          if(!data_len) {
             // Finished reading the file, either loop or exit.
             if (loop<0) {
-                fseek(in, 0, SEEK_SET);
+                /* Uncomment for a working workaround 
+                printf("Sending empty buffer \n");
+                buf->nFilledLen = 0;
+                buf->nFlags = OMX_BUFFERFLAG_TIME_UNKNOWN | OMX_BUFFERFLAG_EOS;
+                if(OMX_EmptyThisBuffer(ILC_GET_HANDLE(video_decode), buf) != OMX_ErrorNone)
+                    status = -20;
+                // wait for EOS from render
+                ilclient_wait_for_event(video_render, OMX_EventBufferFlag, 90, 0, OMX_BUFFERFLAG_EOS, 0,
+                              ILCLIENT_BUFFER_FLAG_EOS, -1);
+                } */
+                ilclient_flush_tunnels(tunnel, 0);
+                printf("Press any key to loop...\n");
+                getchar();
             } else {
                 playcount++;
                 if (playcount<loop){
