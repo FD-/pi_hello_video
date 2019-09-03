@@ -240,7 +240,7 @@ void error_usage(char* name) {
 
 int main (int argc, char **argv)
 {
-   int loop = 0;
+   int loop = -1;
 
    if (argc < 2 || argc > 3) {
       error_usage(argv[0]);
